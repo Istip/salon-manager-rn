@@ -7,8 +7,6 @@ import { useColorScheme } from 'nativewind';
 
 import '@/global.css';
 
-export { ErrorBoundary } from 'expo-router';
-
 export default function RootLayout() {
   const { colorScheme } = useColorScheme();
 
@@ -20,3 +18,5 @@ export default function RootLayout() {
     </ThemeProvider>
   );
 }
+
+export { ErrorBoundary } from 'expo-router';
