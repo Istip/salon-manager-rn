@@ -2,8 +2,11 @@ import { Icon } from '@/components/ui/icon';
 import { colors } from '@/lib/colors';
 import { Tabs } from 'expo-router';
 import { Clock, Settings, UsersRound } from 'lucide-react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const TabsLayout = () => {
+  const { bottom } = useSafeAreaInsets();
+
   return (
     <Tabs
       initialRouteName="index"
@@ -11,8 +14,9 @@ const TabsLayout = () => {
         animation: 'shift',
         tabBarShowLabel: false,
         tabBarStyle: {
-          height: 80,
+          height: 80 + bottom,
           borderTopWidth: 0,
+          paddingBottom: bottom,
         },
         tabBarIconStyle: {
           marginVertical: 'auto',
