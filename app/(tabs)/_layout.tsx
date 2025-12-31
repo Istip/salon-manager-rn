@@ -1,5 +1,4 @@
 import { Icon } from '@/components/ui/icon';
-import { colors } from '@/lib/colors';
 import { Tabs } from 'expo-router';
 import { Clock, Settings, UsersRound } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -14,14 +13,13 @@ const TabsLayout = () => {
         animation: 'shift',
         tabBarShowLabel: false,
         tabBarStyle: {
-          height: 80 + bottom,
+          height: 60 + bottom,
           borderTopWidth: 0,
           paddingBottom: bottom,
         },
         tabBarIconStyle: {
           marginVertical: 'auto',
         },
-        tabBarActiveBackgroundColor: colors.primary,
       }}>
       <Tabs.Screen
         name="clients"
@@ -32,8 +30,8 @@ const TabsLayout = () => {
           tabBarIcon: ({ focused }) => (
             <Icon
               as={UsersRound}
-              size={25}
-              className={focused ? 'text-foreground' : 'text-muted-foreground'}
+              size={24}
+              className={focused ? 'text-primary' : 'text-muted-foreground'}
             />
           ),
         }}
@@ -47,8 +45,8 @@ const TabsLayout = () => {
           tabBarIcon: ({ focused }) => (
             <Icon
               as={Clock}
-              size={25}
-              className={focused ? 'text-foreground' : 'text-muted-foreground'}
+              size={24}
+              className={focused ? 'text-primary' : 'text-muted-foreground'}
             />
           ),
         }}
@@ -62,8 +60,8 @@ const TabsLayout = () => {
           tabBarIcon: ({ focused }) => (
             <Icon
               as={Settings}
-              size={25}
-              className={focused ? 'text-foreground' : 'text-muted-foreground'}
+              size={24}
+              className={focused ? 'text-primary' : 'text-muted-foreground'}
             />
           ),
         }}
