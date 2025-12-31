@@ -2,7 +2,7 @@ import { Text } from '@/components/ui/text';
 import { useState } from 'react';
 import { Switch, View } from 'react-native';
 
-export default function Screen() {
+export default function Calendar() {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   return (
