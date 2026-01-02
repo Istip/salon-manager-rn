@@ -18,7 +18,7 @@ const Switcher = ({ children, value, onValueChange, className }: Props) => {
   return (
     <View
       className={cn(
-        'w-full flex-row items-center justify-between gap-2 rounded-2xl bg-accent px-4 py-1',
+        'w-full flex-row items-center justify-between gap-2 rounded-lg bg-accent px-4 py-1',
         className
       )}>
       <Text className="flex-1 shrink">{children}</Text>
