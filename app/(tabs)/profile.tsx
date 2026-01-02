@@ -42,7 +42,7 @@ const Profile = () => {
         showsVerticalScrollIndicator={false}>
         <View className="flex-1 py-8">
           <View className="mb-8 items-center">
-            <ProfileAvatar />
+            {user && <ProfileAvatar user={user} />}
 
             <Text variant="h3" className="mb-[-4px] text-muted-foreground">
               Hello,
@@ -65,6 +65,12 @@ const Profile = () => {
             <CardContent>
               <ThemeToggler />
             </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle></CardTitle>
+            </CardHeader>
           </Card>
         </View>
       </ScrollView>
