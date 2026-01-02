@@ -44,6 +44,9 @@ const Profile = () => {
           <View className="mb-8 items-center">
             <ProfileAvatar />
 
+            <Text variant="h3" className="mb-[-4px] text-muted-foreground">
+              Hello,
+            </Text>
             <Text variant="h3" className="mb-2">
               {user?.displayName || 'User'}
             </Text>
