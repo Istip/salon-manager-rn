@@ -21,7 +21,7 @@ const Switcher = ({ children, value, onValueChange, className }: Props) => {
         'w-full flex-row items-center justify-between gap-2 rounded-2xl bg-accent px-4 py-1',
         className
       )}>
-      <Text>{children}</Text>
+      <Text className="flex-1 shrink">{children}</Text>
       <Switch
         value={value}
         onValueChange={onValueChange}
