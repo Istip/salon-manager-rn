@@ -1,11 +1,12 @@
 import { useAuthStateObserver } from '@/lib/hooks/use-auth-observer';
+import { useAuthStore } from '@/lib/stores/auth-store';
 import { NAV_THEME } from '@/lib/theme';
 import { ThemeProvider } from '@react-navigation/native';
 import { PortalHost } from '@rn-primitives/portal';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from 'nativewind';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Appearance } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -13,15 +14,25 @@ import '@/global.css';
 
 export default function RootLayout() {
   const { colorScheme, setColorScheme } = useColorScheme();
+  const { userProfile } = useAuthStore();
+  const themeInitializedRef = useRef(false);
 
   useAuthStateObserver();
 
   useEffect(() => {
-    const systemColorScheme = Appearance.getColorScheme();
-    if (systemColorScheme) {
-      setColorScheme(systemColorScheme);
+    if (userProfile && !themeInitializedRef.current) {
+      if (userProfile.settings?.theme) {
+        setColorScheme(userProfile.settings.theme);
+      }
+      themeInitializedRef.current = true;
+    } else if (!userProfile && !themeInitializedRef.current) {
+      const systemColorScheme = Appearance.getColorScheme();
+      if (systemColorScheme) {
+        setColorScheme(systemColorScheme);
+      }
+      themeInitializedRef.current = true;
     }
-  }, [setColorScheme]);
+  }, [userProfile, setColorScheme]);
 
   return (
     <SafeAreaProvider>

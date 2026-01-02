@@ -2,12 +2,17 @@ import { User } from 'firebase/auth';
 import { doc, FieldValue, getDoc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
+export interface UserSettings {
+  theme: 'light' | 'dark';
+}
+
 export interface UserProfile {
   uid: string;
   email: string;
   displayName: string;
   photoURL?: string;
   phoneNumber?: string;
+  settings: UserSettings;
   createdAt: FieldValue | Date;
   updatedAt: FieldValue | Date;
 }
@@ -16,6 +21,7 @@ export interface UserService {
   createUser: (user: User) => Promise<UserProfile>;
   getUser: (uid: string) => Promise<UserProfile | null>;
   updateUser: (uid: string, data: Partial<UserProfile>) => Promise<void>;
+  updateTheme: (uid: string, theme: 'light' | 'dark') => Promise<void>;
 }
 
 export const userService: UserService = {
@@ -30,6 +36,9 @@ export const userService: UserService = {
       displayName: user.displayName || providerData?.displayName || '',
       photoURL: user.photoURL || providerData?.photoURL || '',
       phoneNumber: user.phoneNumber || providerData?.phoneNumber || '',
+      settings: {
+        theme: 'light',
+      },
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     };
@@ -39,6 +48,9 @@ export const userService: UserService = {
     return {
       uid: user.uid,
       email: user.email || '',
+      settings: {
+        theme: 'light',
+      },
       displayName: user.displayName || providerData?.displayName || '',
       photoURL: user.photoURL || providerData?.photoURL || '',
       phoneNumber: user.phoneNumber || providerData?.phoneNumber || '',
@@ -80,6 +92,19 @@ export const userService: UserService = {
       await updateDoc(userRef, updateData);
     } catch (error) {
       console.error('Error updating user:', error);
+      throw error;
+    }
+  },
+
+  updateTheme: async (uid: string, theme: 'light' | 'dark'): Promise<void> => {
+    try {
+      const userRef = doc(db, 'users', uid);
+      await updateDoc(userRef, {
+        'settings.theme': theme,
+        updatedAt: serverTimestamp(),
+      });
+    } catch (error) {
+      console.error('Error updating theme:', error);
       throw error;
     }
   },
