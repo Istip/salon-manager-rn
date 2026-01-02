@@ -7,7 +7,7 @@ export default function Calendar() {
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   return (
     <>
-      <View className="flex-1 items-center justify-center gap-8 p-4">
+      <View className="flex-1 items-center justify-center gap-8 px-4">
         <Text>HOME SCREEN</Text>
         <View className="flex w-full flex-row items-center justify-between">
           <Text>{isEnabled ? 'Switch is ON' : 'Switch is OFF'}</Text>
