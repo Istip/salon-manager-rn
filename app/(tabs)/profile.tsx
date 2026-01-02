@@ -44,14 +44,16 @@ const Profile = () => {
           <View className="mb-8 items-center">
             {user && <ProfileAvatar user={user} />}
 
-            <Text variant="h3" className="mb-[-4px] text-muted-foreground">
-              Hello,
+            <Text
+              variant="h2"
+              className="mb-2 mt-4 w-full text-center font-extralight text-muted-foreground">
+              Hello
             </Text>
-            <Text variant="h1" className="mb-2">
+            <Text variant="h1" className="font-black">
               {user?.displayName || 'User'}
             </Text>
 
-            <Text className="mb-4 text-muted">{user?.email}</Text>
+            <Text className="mb-8 mt-0 text-muted">{user?.email}</Text>
 
             <Button variant="destructive" onPress={handleSignOut} className="w-full">
               <Text className="text-destructive-foreground">Sign Out</Text>
