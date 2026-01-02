@@ -1,3 +1,4 @@
+import { useAuthStateObserver } from '@/lib/hooks/use-auth-observer';
 import { NAV_THEME } from '@/lib/theme';
 import { ThemeProvider } from '@react-navigation/native';
 import { PortalHost } from '@rn-primitives/portal';
@@ -11,6 +12,8 @@ import '@/global.css';
 export default function RootLayout() {
   const { colorScheme } = useColorScheme();
 
+  useAuthStateObserver();
+
   return (
     <SafeAreaProvider>
       <ThemeProvider value={NAV_THEME[colorScheme ?? 'light']}>
@@ -19,6 +22,24 @@ export default function RootLayout() {
           <Stack.Screen
             name="(tabs)"
             options={{ title: 'Home', headerShown: false, animation: 'fade' }}
+          />
+          <Stack.Screen
+            name="auth/sign-in"
+            options={{
+              title: 'Sign In',
+              headerShown: false,
+              presentation: 'card',
+              animation: 'fade_from_bottom',
+            }}
+          />
+          <Stack.Screen
+            name="auth/sign-up"
+            options={{
+              title: 'Sign Up',
+              headerShown: false,
+              presentation: 'card',
+              animation: 'fade_from_bottom',
+            }}
           />
         </Stack>
         <PortalHost />
