@@ -51,7 +51,7 @@ const Profile = () => {
               {user?.displayName || 'User'}
             </Text>
 
-            <Text className="mb-4 text-muted-foreground">{user?.email}</Text>
+            <Text className="mb-4 text-muted">{user?.email}</Text>
 
             <Button variant="destructive" onPress={handleSignOut} className="w-full">
               <Text className="text-destructive-foreground">Sign Out</Text>
