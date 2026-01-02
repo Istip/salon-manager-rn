@@ -1,5 +1,7 @@
 import { Text } from '@/components/ui/text';
+import { colors } from '@/lib/colors';
 import { cn } from '@/lib/utils';
+import { useColorScheme } from 'nativewind';
 import { Switch, View } from 'react-native';
 
 interface Props {
@@ -10,6 +12,9 @@ interface Props {
 }
 
 const Switcher = ({ children, value, onValueChange, className }: Props) => {
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === 'dark';
+
   return (
     <View
       className={cn(
@@ -17,7 +22,12 @@ const Switcher = ({ children, value, onValueChange, className }: Props) => {
         className
       )}>
       <Text>{children}</Text>
-      <Switch value={value} onValueChange={onValueChange} />
+      <Switch
+        value={value}
+        onValueChange={onValueChange}
+        trackColor={{ false: colors.switchTrackInactive, true: colors.primary }}
+        thumbColor={isDark ? colors.switchThumbDark : colors.switchThumbLight}
+      />
     </View>
   );
 };
