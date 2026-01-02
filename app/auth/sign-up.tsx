@@ -64,7 +64,7 @@ export default function SignUpScreen() {
             <Text variant="h1" className="text-primary">
               Salon Manager
             </Text>
-            <Text className="text-center text-muted">Join us to manage your Salon</Text>
+            <Text className="text-center text-muted-foreground">Join us to manage your Salon</Text>
           </View>
 
           <View className="mb-6">

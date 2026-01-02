@@ -64,7 +64,9 @@ export default function SignInScreen() {
               <Text variant="h1" className="text-primary">
                 Salon Manager
               </Text>
-              <Text className="text-center text-muted">Sign back to your own Salon account</Text>
+              <Text className="text-center text-muted-foreground">
+                Sign back to your own Salon account
+              </Text>
             </View>
 
             <View className="mb-6">
