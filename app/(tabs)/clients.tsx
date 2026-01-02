@@ -4,7 +4,7 @@ import { View } from 'react-native';
 
 const Clients = () => {
   return (
-    <View className="flex flex-1 items-center justify-center">
+    <View className="flex flex-1 items-center justify-center p-4">
       <Text variant="h3">Clients</Text>
       <ThemeToggler />
     </View>
