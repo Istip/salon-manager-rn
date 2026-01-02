@@ -1,18 +1,11 @@
 import { Text } from '@/components/ui/text';
-import { useState } from 'react';
-import { Switch, View } from 'react-native';
+import { View } from 'react-native';
 
 export default function Calendar() {
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   return (
     <>
       <View className="flex-1 items-center justify-center gap-8 px-4">
-        <Text>HOME SCREEN</Text>
-        <View className="flex w-full flex-row items-center justify-between">
-          <Text>{isEnabled ? 'Switch is ON' : 'Switch is OFF'}</Text>
-          <Switch onValueChange={toggleSwitch} value={isEnabled} />
-        </View>
+        <Text variant="h1">Home screen</Text>
       </View>
     </>
   );
