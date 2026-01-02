@@ -21,7 +21,7 @@ export default function RootLayout() {
         <Stack>
           <Stack.Screen
             name="(tabs)"
-            options={{ title: 'Home', headerShown: false, animation: 'fade' }}
+            options={{ title: 'Home', headerShown: false, animation: 'fade_from_bottom' }}
           />
           <Stack.Screen
             name="auth/sign-in"
