@@ -5,14 +5,23 @@ import { PortalHost } from '@rn-primitives/portal';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from 'nativewind';
+import { useEffect } from 'react';
+import { Appearance } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import '@/global.css';
 
 export default function RootLayout() {
-  const { colorScheme } = useColorScheme();
+  const { colorScheme, setColorScheme } = useColorScheme();
 
   useAuthStateObserver();
+
+  useEffect(() => {
+    const systemColorScheme = Appearance.getColorScheme();
+    if (systemColorScheme) {
+      setColorScheme(systemColorScheme);
+    }
+  }, [setColorScheme]);
 
   return (
     <SafeAreaProvider>
