@@ -1,11 +1,8 @@
 import { Text } from '@/components/ui/text';
-import { useAuthStore } from '@/lib/stores/auth-store';
-import React from 'react';
+import { User } from 'firebase/auth';
 import { Image, View } from 'react-native';
 
-const ProfileAvatar = () => {
-  const { user } = useAuthStore();
-
+const ProfileAvatar = ({ user }: { user: User }) => {
   return (
     <>
       {user?.photoURL ? (
