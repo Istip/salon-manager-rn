@@ -69,7 +69,7 @@ const Profile = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle></CardTitle>
+              <CardTitle>Your operations</CardTitle>
             </CardHeader>
           </Card>
         </View>
