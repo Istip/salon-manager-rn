@@ -16,7 +16,7 @@ const TabsLayout = () => {
           tabBarShowLabel: false,
           tabBarStyle: {
             height: 60 + bottom,
-            borderTopWidth: 0,
+            borderTopWidth: 1,
             paddingBottom: bottom,
           },
           tabBarIconStyle: {
