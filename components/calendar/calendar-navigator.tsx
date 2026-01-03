@@ -67,7 +67,7 @@ const CalendarNavigator = () => {
   useEffect(() => {
     scrollToToday();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedDate]);
+  }, [selectedDate, scrollViewWidth]);
 
   return (
     <View className="mb-4 w-full border-b border-secondary bg-accent shadow-2xl">
