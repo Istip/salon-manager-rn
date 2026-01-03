@@ -14,12 +14,14 @@ import '@/global.css';
 
 export default function RootLayout() {
   const { colorScheme, setColorScheme } = useColorScheme();
-  const { userProfile } = useAuthStore();
+  const { userProfile, isLoading } = useAuthStore();
   const themeInitializedRef = useRef(false);
 
   useAuthStateObserver();
 
   useEffect(() => {
+    if (isLoading) return;
+
     if (userProfile && !themeInitializedRef.current) {
       if (userProfile.settings?.theme) {
         setColorScheme(userProfile.settings.theme);
@@ -32,7 +34,7 @@ export default function RootLayout() {
       }
       themeInitializedRef.current = true;
     }
-  }, [userProfile, setColorScheme]);
+  }, [userProfile, isLoading, setColorScheme]);
 
   return (
     <SafeAreaProvider>
