@@ -4,11 +4,12 @@ import { Text } from '@/components/ui/text';
 import { daynames, getYearMonth } from '@/lib/date-functions';
 import { useDateStore } from '@/lib/stores/date-store';
 import { ChevronLeft, ChevronRight, Clock } from 'lucide-react-native';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 
 const CalendarNavigator = () => {
   const scrollViewRef = useRef<ScrollView>(null);
+  const [scrollViewWidth, setScrollViewWidth] = useState(0);
   const today = useDateStore((state) => state.today);
 
   // Used to select a specific day to show clients' appointments
@@ -44,59 +45,27 @@ const CalendarNavigator = () => {
     return days;
   };
 
-  const groupDaysByWeek = () => {
-    const days = generateDaysArray();
-    const weeks: Date[][] = [];
-    let currentWeek: Date[] = [];
-
-    days.forEach((day) => {
-      currentWeek.push(day);
-      if (day.getDay() === 0) {
-        weeks.push(currentWeek);
-        currentWeek = [];
-      }
-    });
-
-    if (currentWeek.length > 0) {
-      weeks.push(currentWeek);
-    }
-
-    return weeks;
-  };
-
   const backToToday = () => {
     setSelectedDay(today);
     setSelectedDate(today);
+    scrollToToday();
   };
 
   const scrollToToday = () => {
-    const weeks = groupDaysByWeek();
-    let targetWeekIndex = -1;
+    const days = generateDaysArray();
+    const todayIndex = days.findIndex((day) => day.toDateString() === today.toDateString());
 
-    // Check if today is in the current month
-    const todayWeekIndex = weeks.findIndex((week) =>
-      week.some((day) => day.toDateString() === today.toDateString())
-    );
-
-    if (todayWeekIndex !== -1) {
-      // Today is in this month, scroll to today
-      targetWeekIndex = todayWeekIndex;
-    } else {
-      // Today is not in this month, scroll to the first day of the month
-      targetWeekIndex = 0;
-    }
-
-    if (targetWeekIndex !== -1) {
-      const weekWidth = 200;
+    if (todayIndex !== -1) {
+      const dayWidth = 60;
       const gap = 8;
-      const xOffset = targetWeekIndex * (weekWidth + gap);
-      scrollViewRef.current?.scrollTo({ x: xOffset, animated: true });
+      const itemOffset = todayIndex * (dayWidth + gap);
+      const centerOffset = itemOffset - (scrollViewWidth - dayWidth) / 2;
+      scrollViewRef.current?.scrollTo({ x: centerOffset, animated: true });
     }
   };
 
   useEffect(() => {
-    const timer = setTimeout(scrollToToday, 100);
-    return () => clearTimeout(timer);
+    scrollToToday();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDate]);
 
@@ -126,36 +95,30 @@ const CalendarNavigator = () => {
         ref={scrollViewRef}
         horizontal
         showsHorizontalScrollIndicator={false}
-        className="my-2"
-        contentContainerStyle={{ gap: 8 }}>
-        {groupDaysByWeek().map((week, weekIndex) => (
-          <View key={weekIndex} className="flex flex-row border border-background">
-            {week.map((day) => {
-              const isSelected = day.toDateString() === selectedDay.toDateString();
-              const isToday = day.toDateString() === today.toDateString();
+        className="my-2 gap-2"
+        contentContainerStyle={{ gap: 8 }}
+        onLayout={(event) => setScrollViewWidth(event.nativeEvent.layout.width)}>
+        {generateDaysArray().map((day) => {
+          const isSelected = day.toDateString() === selectedDay.toDateString();
+          const isToday = day.toDateString() === today.toDateString();
+          const isWeekend = day.getDay() === 0 || day.getDay() === 6;
 
-              return (
-                <Pressable
-                  key={day.getDate()}
-                  onPress={() => setSelectedDay(day)}
-                  className={`flex w-12 flex-col items-center justify-center p-2 ${
-                    isSelected ? 'bg-primary' : 'bg-card'
-                  } ${isToday ? 'text-primary' : ''}`}>
-                  <Text
-                    variant="large"
-                    className={`${isToday ? 'text-primary' : ''} ${isSelected ? 'text-foreground' : ''}`}>
-                    {day.getDate()}
-                  </Text>
-                  <Text
-                    variant="small"
-                    className={`text-muted ${isToday ? 'text-primary' : ''} ${isSelected ? 'text-foreground' : ''}`}>
-                    {daynames[(day.getDay() - 1 + 7) % 7]}
-                  </Text>
-                </Pressable>
-              );
-            })}
-          </View>
-        ))}
+          return (
+            <Pressable
+              key={day.getDate()}
+              onPress={() => setSelectedDay(day)}
+              className={`w-12 rounded-lg border p-2 ${isWeekend ? 'bg-accent' : 'bg-background'} ${isToday ? 'border-primary' : 'border-transparent'} ${isSelected ? 'bg-primary' : ''}`}>
+              <Text variant="large" className="text-center">
+                {day.getDate()}
+              </Text>
+              <Text
+                variant="small"
+                className={`text-center ${isSelected ? 'text-foreground' : 'text-muted'}`}>
+                {daynames[(day.getDay() - 1 + 7) % 7]}
+              </Text>
+            </Pressable>
+          );
+        })}
       </ScrollView>
     </View>
   );
