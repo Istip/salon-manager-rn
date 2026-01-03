@@ -101,7 +101,7 @@ const CalendarNavigator = () => {
   }, [selectedDate]);
 
   return (
-    <View className="my-2 mb-4 w-full border-b border-secondary bg-accent shadow-2xl">
+    <View className="mb-4 w-full border-b border-secondary bg-accent shadow-2xl">
       <View className="flex flex-row items-center justify-between p-2">
         <Button variant="secondary" onPress={selectPreviousMonth}>
           <Icon as={ChevronLeft} size="12" />
