@@ -95,8 +95,8 @@ const CalendarNavigator = () => {
         ref={scrollViewRef}
         horizontal
         showsHorizontalScrollIndicator={false}
-        className="my-2 gap-2"
-        contentContainerStyle={{ gap: 8 }}
+        contentContainerStyle={{ gap: 8, paddingHorizontal: 8 }}
+        className="my-2"
         onLayout={(event) => setScrollViewWidth(event.nativeEvent.layout.width)}>
         {generateDaysArray().map((day) => {
           const isSelected = day.toDateString() === selectedDay.toDateString();
@@ -109,7 +109,7 @@ const CalendarNavigator = () => {
               onPress={() => setSelectedDay(day)}
               className={`w-12 rounded-2xl border p-2 ${isWeekend ? 'bg-card' : 'bg-background'} ${isToday ? 'border-primary' : 'border-transparent'} ${isSelected ? 'bg-primary' : ''}`}>
               <Text
-                variant="large"
+                variant="h4"
                 className={`text-center ${isSelected ? 'text-foreground' : isWeekend ? 'text-muted' : 'text-foreground'}`}>
                 {day.getDate()}
               </Text>
