@@ -4,7 +4,12 @@ import { Loader } from 'lucide-react-native';
 import { useEffect, useRef } from 'react';
 import { Animated, View } from 'react-native';
 
-const Loading = () => {
+interface Props {
+  title?: string;
+  subtitle?: string;
+}
+
+const Loading = ({ title = 'Salon Manager', subtitle = 'Loading in course' }: Props) => {
   const spinValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -32,9 +37,9 @@ const Loading = () => {
         <Loader size={48} color={colors.primary} strokeWidth={2} />
       </Animated.View>
       <Text variant="h1" className="text-foreground">
-        Salon Manager
+        {title}
       </Text>
-      <Text className="text-muted">Loading in course</Text>
+      <Text className="text-muted">{subtitle}</Text>
     </View>
   );
 };
