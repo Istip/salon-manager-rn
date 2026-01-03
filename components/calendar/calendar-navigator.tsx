@@ -107,8 +107,10 @@ const CalendarNavigator = () => {
             <Pressable
               key={day.getDate()}
               onPress={() => setSelectedDay(day)}
-              className={`w-12 rounded-lg border p-2 ${isWeekend ? 'bg-accent' : 'bg-background'} ${isToday ? 'border-primary' : 'border-transparent'} ${isSelected ? 'bg-primary' : ''}`}>
-              <Text variant="large" className="text-center">
+              className={`w-12 rounded-2xl border p-2 ${isWeekend ? 'bg-card' : 'bg-background'} ${isToday ? 'border-primary' : 'border-transparent'} ${isSelected ? 'bg-primary' : ''}`}>
+              <Text
+                variant="large"
+                className={`text-center ${isSelected ? 'text-foreground' : isWeekend ? 'text-muted' : 'text-foreground'}`}>
                 {day.getDate()}
               </Text>
               <Text
