@@ -62,8 +62,6 @@ const Events = () => {
   >('workingHours');
   const { events, loading } = useCalendarEvents();
 
-  console.log('EVENTS: ', events);
-
   const displayData = getFilteredAppointments(filteredAppointments, timestamps);
 
   const renderEventOrEmpty = (item: string) => {
