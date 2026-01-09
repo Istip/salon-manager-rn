@@ -1,13 +1,16 @@
 import EmptyEvent from '@/components/calendar/empty-event';
+import Event from '@/components/calendar/event';
+import EventSkeleton from '@/components/calendar/event-skeleton';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { timestamps } from '@/lib/date-functions';
+import { useCalendarEvents } from '@/lib/hooks/use-calendar-events';
 import { FlashList } from '@shopify/flash-list';
 import { CalendarCheck, CalendarDays, CalendarRange } from 'lucide-react-native';
 import { useState } from 'react';
 import { View } from 'react-native';
 
-const CalendarEventsHeader = ({
+const EventsHeader = ({
   onFilterChange,
   filter,
 }: {
@@ -53,28 +56,42 @@ const getFilteredAppointments = (
   return [];
 };
 
-const CalendarEvents = () => {
+const Events = () => {
   const [filteredAppointments, setFilteredAppointments] = useState<
     'workingHours' | 'all' | 'appointments'
   >('workingHours');
+  const { events, loading } = useCalendarEvents();
+
+  console.log('EVENTS: ', events);
 
   const displayData = getFilteredAppointments(filteredAppointments, timestamps);
+
+  const renderEventOrEmpty = (item: string) => {
+    const event = events[item];
+
+    if (loading) {
+      return <EventSkeleton item={item} />;
+    }
+
+    if (event) {
+      return <Event event={event} item={item} />;
+    }
+
+    return <EmptyEvent item={item} />;
+  };
 
   return (
     <FlashList
       className="px-2"
       data={displayData}
-      renderItem={({ item }) => <EmptyEvent item={item} />}
+      renderItem={({ item }) => renderEventOrEmpty(item)}
       keyExtractor={(item, index) => `${item}-${index}`}
       showsVerticalScrollIndicator={false}
       ListHeaderComponent={
-        <CalendarEventsHeader
-          filter={filteredAppointments}
-          onFilterChange={setFilteredAppointments}
-        />
+        <EventsHeader filter={filteredAppointments} onFilterChange={setFilteredAppointments} />
       }
     />
   );
 };
 
-export default CalendarEvents;
+export default Events;
