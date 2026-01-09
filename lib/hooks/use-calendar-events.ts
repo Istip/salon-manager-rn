@@ -6,6 +6,7 @@ import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
 export interface CalendarEvent {
+  id: string;
   name: string;
   action: string;
   time: string;
@@ -47,6 +48,7 @@ export const useCalendarEvents = () => {
 
           if (isSameDay(eventDate, selectedDay)) {
             eventsMap[data.time] = {
+              id: doc.id,
               name: data.name,
               action: data.action,
               time: data.time,
