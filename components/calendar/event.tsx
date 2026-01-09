@@ -1,9 +1,11 @@
+import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
+import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 import { db } from '@/lib/firebase';
 import { CalendarEvent } from '@/lib/hooks/use-calendar-events';
 import { doc, setDoc } from 'firebase/firestore';
-import { ChevronDown } from 'lucide-react-native';
+import { CheckCircle, ChevronDown, Trash } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
@@ -39,19 +41,24 @@ const Event = ({ event, item }: { event: CalendarEvent; item: string }) => {
         className={`flex-1 rounded-lg border border-primary px-4 py-6 ${event.done ? 'bg-primary' : 'bg-muted/20 dark:bg-black/20'}`}>
         <Pressable onLongPress={handleFinish} onPress={handleOpen}>
           <View className="flex flex-row items-center justify-between">
+            <View className="mr-4 h-10 w-10 items-center justify-center overflow-hidden rounded-2xl bg-card">
+              <Text variant="small" className="text-primary">
+                {event.price}
+              </Text>
+            </View>
             <View className="flex-1">
               <Text
-                variant="h4"
+                variant="large"
                 className={`${event.done ? 'text-background' : 'text-foreground'}`}>
                 {event.name}
               </Text>
               <Text
                 variant="small"
-                className={`${event.done ? 'text-background' : 'text-foreground'}`}>
+                className={`font-thin ${event.done ? 'text-background' : 'text-foreground'}`}>
                 {event.action}
               </Text>
             </View>
-            <Pressable onPress={handleOpen} className="p-3">
+            <Pressable onLongPress={handleFinish} onPress={handleOpen} className="p-3">
               <Animated.View style={animatedStyle}>
                 <Icon as={ChevronDown} size={16} />
               </Animated.View>
@@ -59,16 +66,24 @@ const Event = ({ event, item }: { event: CalendarEvent; item: string }) => {
           </View>
         </Pressable>
         {open && (
-          <View className="mt-4">
-            <Text variant="small" className="text-foreground/70">
-              Price: ${event.price}
-            </Text>
-            <Text variant="small" className="text-foreground/70">
-              Late Fee: ${event.late}
-            </Text>
-            <Text variant="small" className="text-foreground/70">
-              Created At: {event.createdAt.toDateString()}
-            </Text>
+          <View className="mt-4 flex-1 flex-row items-center justify-between gap-2">
+            <View>
+              <Button size="sm" variant="destructive">
+                <Icon as={Trash} size={16} />
+              </Button>
+            </View>
+            <View className="flex-1">
+              <Input
+                defaultValue={String(event.price)}
+                keyboardType="numeric"
+                placeholder="Enter price"
+              />
+            </View>
+            <View>
+              <Button size="sm" variant="secondary">
+                <Icon as={CheckCircle} size={16} />
+              </Button>
+            </View>
           </View>
         )}
       </View>
