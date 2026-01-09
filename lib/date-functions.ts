@@ -21,6 +21,25 @@ export const formatDate = (date: Date): string => {
   return `${year} ${month} ${day}`;
 };
 
+// Convert date to ISO string format (YYYY-MM-DD) for Firestore consistency
+export const dateToISOString = (date: Date): string => {
+  return date.toISOString().split('T')[0];
+};
+
+// Normalize date to start of day (00:00:00) for comparison
+export const normalizeDate = (date: Date): Date => {
+  const normalized = new Date(date);
+  normalized.setHours(0, 0, 0, 0);
+  return normalized;
+};
+
+// Compare two dates (ignoring time)
+export const isSameDay = (date1: Date, date2: Date): boolean => {
+  const norm1 = normalizeDate(date1);
+  const norm2 = normalizeDate(date2);
+  return norm1.getTime() === norm2.getTime();
+};
+
 export const daynames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 export const timestamps = [
