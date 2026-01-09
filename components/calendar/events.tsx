@@ -3,6 +3,7 @@ import Event from '@/components/calendar/event';
 import EventSkeleton from '@/components/calendar/event-skeleton';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
+import NoAppointment from '@/components/utils/no-appointment';
 import { timestamps } from '@/lib/date-functions';
 import { useCalendarEvents } from '@/lib/hooks/use-calendar-events';
 import { FlashList } from '@shopify/flash-list';
@@ -43,7 +44,8 @@ const EventsHeader = ({
 
 const getFilteredAppointments = (
   filter: 'all' | 'workingHours' | 'appointments',
-  times: string[]
+  times: string[],
+  events: Record<string, any>
 ) => {
   if (filter === 'all') {
     return times;
@@ -52,6 +54,8 @@ const getFilteredAppointments = (
       const hour = parseInt(time.split(':')[0], 10);
       return hour >= 8 && hour <= 18;
     });
+  } else if (filter === 'appointments') {
+    return times.filter((time) => events[time] !== undefined);
   }
   return [];
 };
@@ -62,7 +66,7 @@ const Events = () => {
   >('workingHours');
   const { events, loading } = useCalendarEvents();
 
-  const displayData = getFilteredAppointments(filteredAppointments, timestamps);
+  const displayData = getFilteredAppointments(filteredAppointments, timestamps, events);
 
   const renderEventOrEmpty = (item: string) => {
     const event = events[item];
@@ -88,6 +92,7 @@ const Events = () => {
       ListHeaderComponent={
         <EventsHeader filter={filteredAppointments} onFilterChange={setFilteredAppointments} />
       }
+      ListEmptyComponent={filteredAppointments === 'appointments' ? <NoAppointment /> : null}
     />
   );
 };
