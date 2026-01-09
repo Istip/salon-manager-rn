@@ -12,6 +12,9 @@ export interface CalendarEvent {
   done: boolean;
   price: number;
   late: number;
+  date: Date;
+  uid: string;
+  createdAt: Date;
 }
 
 export const useCalendarEvents = () => {
@@ -50,6 +53,9 @@ export const useCalendarEvents = () => {
               done: data.done,
               price: data.price,
               late: data.late,
+              date: eventDate,
+              uid: data.uid,
+              createdAt: new Date(data.createdAt.toDate()),
             };
           }
         });
