@@ -2,9 +2,10 @@ import EmptyEvent from '@/components/calendar/empty-event';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { timestamps } from '@/lib/date-functions';
+import { FlashList } from '@shopify/flash-list';
 import { CalendarCheck, CalendarDays, CalendarRange } from 'lucide-react-native';
 import { useState } from 'react';
-import { FlatList, View } from 'react-native';
+import { View } from 'react-native';
 
 const CalendarEventsHeader = ({
   onFilterChange,
@@ -60,7 +61,7 @@ const CalendarEvents = () => {
   const displayData = getFilteredAppointments(filteredAppointments, timestamps);
 
   return (
-    <FlatList
+    <FlashList
       className="px-2"
       data={displayData}
       renderItem={({ item }) => <EmptyEvent item={item} />}
