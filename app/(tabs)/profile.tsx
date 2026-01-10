@@ -3,7 +3,7 @@ import Services from '@/components/profile/services';
 import GenderToggler from '@/components/settings/gender-toggler';
 import ThemeToggler from '@/components/settings/theme-toggler';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Text } from '@/components/ui/text';
 import { authService } from '@/lib/services/auth-service';
 import { useAuthStore } from '@/lib/stores/auth-store';
@@ -63,6 +63,11 @@ const Profile = () => {
           <Card>
             <CardHeader>
               <CardTitle>Services</CardTitle>
+              <CardDescription>
+                Manage your offered services, add or remove them, adjust its price. Note: you have
+                to have at least one active service at a time and each service should have a unique
+                name.
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <Services />
