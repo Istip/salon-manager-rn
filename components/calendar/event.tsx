@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 import { db } from '@/lib/firebase';
 import { CalendarEvent } from '@/lib/hooks/use-calendar-events';
-import { doc, setDoc } from 'firebase/firestore';
+import { deleteDoc, doc, setDoc } from 'firebase/firestore';
 import { CheckCircle, ChevronDown, Trash } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
 import { Pressable, View } from 'react-native';
@@ -22,12 +22,24 @@ const Event = ({ event, item }: { event: CalendarEvent; item: string }) => {
     transform: [{ rotate: `${rotation.value}deg` }],
   }));
 
-  const handleFinish = () => {
-    setDoc(doc(db, 'events', event.id), { ...event, done: !event.done }, { merge: true });
+  const handleFinish = async () => {
+    try {
+      await setDoc(doc(db, 'events', event.id), { ...event, done: !event.done }, { merge: true });
+    } catch (error) {
+      console.error('Error updating document: ', error);
+    }
+  };
+
+  const handleRemove = async () => {
+    try {
+      await deleteDoc(doc(db, 'events', event.id));
+    } catch (error) {
+      console.error('Error deleting document: ', error);
+    }
   };
 
   const handleOpen = () => {
-    setOpen(!open);
+    setOpen((prev) => !prev);
   };
 
   return (
@@ -68,7 +80,7 @@ const Event = ({ event, item }: { event: CalendarEvent; item: string }) => {
         {open && (
           <View className="mt-4 flex-1 flex-row items-center justify-between gap-2">
             <View>
-              <Button size="sm" variant="destructive">
+              <Button size="sm" variant="destructive" onPress={handleRemove}>
                 <Icon as={Trash} size={16} />
               </Button>
             </View>
@@ -80,7 +92,7 @@ const Event = ({ event, item }: { event: CalendarEvent; item: string }) => {
               />
             </View>
             <View>
-              <Button size="sm" variant="secondary">
+              <Button size="sm" variant="secondary" onPress={handleFinish}>
                 <Icon as={CheckCircle} size={16} />
               </Button>
             </View>
