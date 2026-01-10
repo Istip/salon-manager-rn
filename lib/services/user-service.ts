@@ -7,13 +7,20 @@ export interface UserSettings {
   defaultGender: 'male' | 'female';
 }
 
+export interface Service {
+  name: string;
+  price: string;
+}
+
 export interface UserProfile {
   uid: string;
   email: string;
   displayName: string;
   photoURL?: string;
   phoneNumber?: string;
+  role: string;
   settings: UserSettings;
+  services: Service[];
   createdAt: FieldValue | Date;
   updatedAt: FieldValue | Date;
 }
@@ -42,6 +49,12 @@ export const userService: UserService = {
         theme: 'light',
         defaultGender: 'female',
       },
+      services: [
+        { name: 'adult hair cut', price: '50' },
+        { name: 'child hair cut', price: '40' },
+        { name: 'shaving', price: '35' },
+      ],
+      role: 'user',
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     };
@@ -51,13 +64,19 @@ export const userService: UserService = {
     return {
       uid: user.uid,
       email: user.email || '',
+      displayName: user.displayName || providerData?.displayName || '',
+      photoURL: user.photoURL || providerData?.photoURL || '',
+      phoneNumber: user.phoneNumber || providerData?.phoneNumber || '',
+      role: 'user',
       settings: {
         theme: 'light',
         defaultGender: 'female',
       },
-      displayName: user.displayName || providerData?.displayName || '',
-      photoURL: user.photoURL || providerData?.photoURL || '',
-      phoneNumber: user.phoneNumber || providerData?.phoneNumber || '',
+      services: [
+        { name: 'adult hair cut', price: '50' },
+        { name: 'child hair cut', price: '40' },
+        { name: 'shaving', price: '35' },
+      ],
       createdAt: new Date(),
       updatedAt: new Date(),
     };
