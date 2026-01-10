@@ -2,13 +2,17 @@ import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
-import { userService } from '@/lib/services/user-service';
+import { Service, userService } from '@/lib/services/user-service';
 import { useAuthStore } from '@/lib/stores/auth-store';
 import { PlusCircle } from 'lucide-react-native';
 import React from 'react';
-import { View } from 'react-native';
+import { Alert, View } from 'react-native';
 
-const NewService = () => {
+interface Props {
+  services: Service[];
+}
+
+const NewService = ({ services }: Props) => {
   const [serviceName, setServiceName] = React.useState('');
   const [servicePrice, setServicePrice] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
@@ -20,7 +24,37 @@ const NewService = () => {
     setIsLoading(true);
     try {
       const { uid } = user!;
-      await userService.addNewService(uid, { name: serviceName, price: servicePrice });
+
+      const name = serviceName.trim().toLowerCase();
+      if (!name.length) {
+        Alert.alert('Please enter a service name.');
+        setIsLoading(false);
+        return;
+      }
+
+      // Validate service price
+      const trimmedPrice = servicePrice.trim();
+      if (!trimmedPrice.length) {
+        Alert.alert('Please enter a service price.');
+        setIsLoading(false);
+        return;
+      }
+
+      const price = Number(trimmedPrice).toString();
+      if (price === 'NaN' || Number(trimmedPrice) < 0) {
+        Alert.alert('Please enter a valid price (0 or greater).');
+        setIsLoading(false);
+        return;
+      }
+
+      // Check for duplicate service names
+      if (services.some((service) => service.name.toLowerCase() === name)) {
+        Alert.alert('Service with this name already exists.');
+        setIsLoading(false);
+        return;
+      }
+
+      await userService.addNewService(uid, { name, price });
 
       const updatedProfile = await userService.getUser(uid);
 
