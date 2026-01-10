@@ -11,18 +11,29 @@ import { View } from 'react-native';
 const NewService = () => {
   const [serviceName, setServiceName] = React.useState('');
   const [servicePrice, setServicePrice] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const user = useAuthStore((state) => state.user);
+  const setUserProfile = useAuthStore((state) => state.setUserProfile);
 
   const handleAddService = async () => {
+    setIsLoading(true);
     try {
       const { uid } = user!;
       await userService.addNewService(uid, { name: serviceName, price: servicePrice });
+
+      const updatedProfile = await userService.getUser(uid);
+
+      if (updatedProfile) {
+        setUserProfile(updatedProfile);
+      }
 
       setServiceName('');
       setServicePrice('');
     } catch (error) {
       console.error('Error adding new service:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -47,9 +58,9 @@ const NewService = () => {
           />
         </View>
       </View>
-      <Button className="mt-4" onPress={handleAddService}>
+      <Button className="mt-4" onPress={handleAddService} disabled={isLoading}>
         <Icon as={PlusCircle} size={16} className="text-foreground" />
-        <Text className="text-foreground">Add Service</Text>
+        <Text className="text-foreground">{isLoading ? 'Adding...' : 'Add Service'}</Text>
       </Button>
     </View>
   );

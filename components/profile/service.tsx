@@ -15,8 +15,10 @@ interface Props {
 
 const Service = ({ service, disabledRemoval }: Props) => {
   const [remove, setRemove] = useState(false);
+  const [isRemoveLoading, setIsRemoveLoading] = useState(false);
 
   const user = useAuthStore((state) => state.user);
+  const setUserProfile = useAuthStore((state) => state.setUserProfile);
 
   const handleDoubleCheck = () => {
     setRemove((prev) => !prev);
@@ -27,11 +29,19 @@ const Service = ({ service, disabledRemoval }: Props) => {
   };
 
   const handleRemoveService = async (serviceName: string) => {
+    setIsRemoveLoading(true);
     try {
       const { uid } = user!;
       await userService.removeService(uid, serviceName);
+
+      const updatedProfile = await userService.getUser(uid);
+      if (updatedProfile) {
+        setUserProfile(updatedProfile);
+      }
     } catch (error) {
       console.error('Error removing service:', error);
+    } finally {
+      setIsRemoveLoading(false);
     }
   };
 
@@ -48,11 +58,14 @@ const Service = ({ service, disabledRemoval }: Props) => {
           </Button>
         ) : (
           <View className="flex flex-row items-center justify-center gap-2">
-            <Button variant="destructive" onPress={() => handleRemoveService(service.name)}>
+            <Button
+              variant="destructive"
+              onPress={() => handleRemoveService(service.name)}
+              disabled={isRemoveLoading}>
               <Icon as={CheckCheck} size={16} className="text-foreground" />
-              <Text className="text-foreground">Confirm</Text>
+              <Text className="text-foreground">{isRemoveLoading ? 'Removing...' : 'Confirm'}</Text>
             </Button>
-            <Button variant="secondary" onPress={handleCancelRemove}>
+            <Button variant="secondary" onPress={handleCancelRemove} disabled={isRemoveLoading}>
               <Icon as={ChevronRightCircle} size={16} className="" />
             </Button>
           </View>
