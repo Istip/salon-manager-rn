@@ -6,6 +6,7 @@ import { Icon } from '@/components/ui/icon';
 import NoAppointment from '@/components/utils/no-appointment';
 import { timestamps } from '@/lib/date-functions';
 import { useCalendarEvents } from '@/lib/hooks/use-calendar-events';
+import { useDateStore } from '@/lib/stores/date-store';
 import { FlashList } from '@shopify/flash-list';
 import { CalendarCheck, CalendarDays, CalendarRange } from 'lucide-react-native';
 import { useState } from 'react';
@@ -65,6 +66,7 @@ const Events = () => {
     'workingHours' | 'all' | 'appointments'
   >('workingHours');
   const { events, loading } = useCalendarEvents();
+  const selectedDay = useDateStore((state) => state.selectedDay);
 
   const displayData = getFilteredAppointments(filteredAppointments, timestamps, events);
 
@@ -87,7 +89,7 @@ const Events = () => {
       className="px-2"
       data={displayData}
       renderItem={({ item }) => renderEventOrEmpty(item)}
-      keyExtractor={(item, index) => `${item}-${index}`}
+      keyExtractor={(item) => `${selectedDay.toDateString()}-${item}`}
       showsVerticalScrollIndicator={false}
       ListHeaderComponent={
         <EventsHeader filter={filteredAppointments} onFilterChange={setFilteredAppointments} />
