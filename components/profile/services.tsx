@@ -5,15 +5,16 @@ import { View } from 'react-native';
 
 const Services = () => {
   const { userProfile } = useAuthStore();
+  const { services } = userProfile!;
 
   const disabledRemoval = userProfile?.services.length! === 1;
 
   return (
     <View className="gap-2">
-      {userProfile?.services.map((service) => (
+      {services.map((service) => (
         <Service key={service.name} service={service} disabledRemoval={disabledRemoval} />
       ))}
-      <NewService />
+      <NewService services={services} />
     </View>
   );
 };
