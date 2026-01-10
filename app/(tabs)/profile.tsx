@@ -1,4 +1,5 @@
 import ProfileAvatar from '@/components/profile/profile-avatar';
+import Services from '@/components/profile/services';
 import GenderToggler from '@/components/settings/gender-toggler';
 import ThemeToggler from '@/components/settings/theme-toggler';
 import { Button } from '@/components/ui/button';
@@ -63,6 +64,9 @@ const Profile = () => {
             <CardHeader>
               <CardTitle>Services</CardTitle>
             </CardHeader>
+            <CardContent>
+              <Services />
+            </CardContent>
           </Card>
         </View>
       </ScrollView>
