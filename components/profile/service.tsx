@@ -68,7 +68,7 @@ const Service = ({ service, disabledRemoval }: Props) => {
   return (
     <View className="rounded-2xl bg-accent p-2">
       <Text variant="default" className="mb-2 text-muted-foreground">
-        {service.name.toLowerCase()}
+        {service.name}
       </Text>
       <View className="flex flex-1 flex-row items-center justify-center gap-2">
         <Input
