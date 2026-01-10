@@ -1,5 +1,5 @@
 import ProfileAvatar from '@/components/profile/profile-avatar';
-import ThemeToggler from '@/components/theme-toggler';
+import ThemeToggler from '@/components/settings/theme-toggler';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Text } from '@/components/ui/text';

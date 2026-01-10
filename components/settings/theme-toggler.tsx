@@ -1,4 +1,4 @@
-import Switcher from '@/components/switcher';
+import Switcher from '@/components/ui/switcher';
 import { userService } from '@/lib/services/user-service';
 import { useAuthStore } from '@/lib/stores/auth-store';
 import { useColorScheme } from 'nativewind';
