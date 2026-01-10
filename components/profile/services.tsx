@@ -10,7 +10,7 @@ const Services = () => {
   const disabledRemoval = userProfile?.services.length! === 1;
 
   return (
-    <View className="gap-2">
+    <View className="mt-2 gap-2">
       {services.map((service) => (
         <Service key={service.name} service={service} disabledRemoval={disabledRemoval} />
       ))}
