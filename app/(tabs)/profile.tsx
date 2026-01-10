@@ -71,7 +71,7 @@ const Profile = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle>Your operations</CardTitle>
+              <CardTitle>Services</CardTitle>
             </CardHeader>
           </Card>
         </View>
