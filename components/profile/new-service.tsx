@@ -2,6 +2,8 @@ import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
+import { userService } from '@/lib/services/user-service';
+import { useAuthStore } from '@/lib/stores/auth-store';
 import { PlusCircle } from 'lucide-react-native';
 import React from 'react';
 import { View } from 'react-native';
@@ -10,12 +12,13 @@ const NewService = () => {
   const [serviceName, setServiceName] = React.useState('');
   const [servicePrice, setServicePrice] = React.useState('');
 
-  // Handle adding new service (functionality to be implemented)
-  const handleAddService = () => {
+  const user = useAuthStore((state) => state.user);
+
+  const handleAddService = async () => {
     try {
-      // Logic to add the new service
-      console.log('Adding new service:', serviceName, servicePrice);
-      // Reset input fields after adding
+      const { uid } = user!;
+      await userService.addNewService(uid, { name: serviceName, price: servicePrice });
+
       setServiceName('');
       setServicePrice('');
     } catch (error) {
