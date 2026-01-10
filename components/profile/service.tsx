@@ -16,6 +16,8 @@ interface Props {
 const Service = ({ service, disabledRemoval }: Props) => {
   const [remove, setRemove] = useState(false);
   const [isRemoveLoading, setIsRemoveLoading] = useState(false);
+  const [isSaveLoading, setIsSaveLoading] = useState(false);
+  const [newPrice, setNewPrice] = useState(service.price);
 
   const user = useAuthStore((state) => state.user);
   const setUserProfile = useAuthStore((state) => state.setUserProfile);
@@ -45,13 +47,36 @@ const Service = ({ service, disabledRemoval }: Props) => {
     }
   };
 
+  const handleSavePrice = async () => {
+    setIsSaveLoading(true);
+    try {
+      const { uid } = user!;
+      await userService.updateServicePrice(uid, service.name, newPrice);
+
+      // Refresh user profile to reflect the changes
+      const updatedProfile = await userService.getUser(uid);
+      if (updatedProfile) {
+        setUserProfile(updatedProfile);
+      }
+    } catch (error) {
+      console.error('Error updating service price:', error);
+    } finally {
+      setIsSaveLoading(false);
+    }
+  };
+
   return (
     <View className="rounded-2xl bg-accent p-2">
       <Text variant="default" className="mb-2 text-muted-foreground">
         {service.name.toLowerCase()}
       </Text>
       <View className="flex flex-1 flex-row items-center justify-center gap-2">
-        <Input keyboardType="numeric" defaultValue={service.price} className="flex-1" />
+        <Input
+          keyboardType="numeric"
+          value={newPrice}
+          onChangeText={setNewPrice}
+          className="flex-1"
+        />
         {!remove ? (
           <Button variant="destructive" onPress={handleDoubleCheck} disabled={disabledRemoval}>
             <Icon as={Trash} size={16} className="text-foreground" />
@@ -71,7 +96,7 @@ const Service = ({ service, disabledRemoval }: Props) => {
           </View>
         )}
         {!remove ? (
-          <Button>
+          <Button disabled={isSaveLoading} onPress={handleSavePrice}>
             <Icon as={SaveIcon} size={16} className="text-foreground" />
             <Text className="text-foreground">Save</Text>
           </Button>
