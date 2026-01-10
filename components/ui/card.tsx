@@ -7,7 +7,7 @@ function Card({ className, ...props }: ViewProps & React.RefAttributes<View>) {
     <TextClassContext.Provider value="text-card-foreground">
       <View
         className={cn(
-          'flex flex-col gap-3 rounded-xl border border-border bg-card py-3',
+          'flex flex-col gap-3 rounded-3xl border border-border bg-card py-3',
           className
         )}
         {...props}
@@ -28,7 +28,7 @@ function CardTitle({
     <Text
       role="heading"
       aria-level={3}
-      className={cn('font-semibold leading-none', className)}
+      className={cn('text-center font-semibold leading-none', className)}
       {...props}
     />
   );
