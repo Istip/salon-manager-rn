@@ -1,5 +1,13 @@
 import { User } from 'firebase/auth';
-import { doc, FieldValue, getDoc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
+import {
+  arrayUnion,
+  doc,
+  FieldValue,
+  getDoc,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
+} from 'firebase/firestore';
 import { db } from '../firebase';
 
 export interface UserSettings {
@@ -31,6 +39,8 @@ export interface UserService {
   updateUser: (uid: string, data: Partial<UserProfile>) => Promise<void>;
   updateTheme: (uid: string, theme: 'light' | 'dark') => Promise<void>;
   updateDefaultGender: (uid: string, gender: 'male' | 'female') => Promise<void>;
+  addNewService: (uid: string, service: Service) => Promise<void>;
+  removeService: (uid: string, serviceName: string) => Promise<void>;
 }
 
 export const userService: UserService = {
@@ -141,6 +151,39 @@ export const userService: UserService = {
       });
     } catch (error) {
       console.error('Error updating default gender', error);
+      throw error;
+    }
+  },
+
+  addNewService: async (uid: string, service: Service): Promise<void> => {
+    try {
+      const userRef = doc(db, 'users', uid);
+      await updateDoc(userRef, {
+        services: arrayUnion(service),
+        updatedAt: serverTimestamp(),
+      });
+    } catch (error) {
+      console.error('Error adding new service:', error);
+      throw error;
+    }
+  },
+
+  removeService: async (uid: string, serviceName: string): Promise<void> => {
+    try {
+      const user = await userService.getUser(uid);
+      if (!user) {
+        throw new Error('User not found');
+      }
+
+      const updatedServices = user.services.filter((service) => service.name !== serviceName);
+
+      const userRef = doc(db, 'users', uid);
+      await updateDoc(userRef, {
+        services: updatedServices,
+        updatedAt: serverTimestamp(),
+      });
+    } catch (error) {
+      console.error('Error removing service:', error);
       throw error;
     }
   },
