@@ -4,9 +4,11 @@ import GenderToggler from '@/components/settings/gender-toggler';
 import ThemeToggler from '@/components/settings/theme-toggler';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { authService } from '@/lib/services/auth-service';
 import { useAuthStore } from '@/lib/stores/auth-store';
+import { LogOutIcon } from 'lucide-react-native';
 import { Alert, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -46,6 +48,7 @@ const Profile = () => {
             <Text className="mb-8 mt-0 text-muted">{user?.email}</Text>
 
             <Button variant="destructive" onPress={handleSignOut} className="w-full">
+              <Icon as={LogOutIcon} size={16} className="text-destructive-foreground" />
               <Text className="text-destructive-foreground">Sign Out</Text>
             </Button>
           </View>
