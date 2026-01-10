@@ -6,7 +6,7 @@ import { Service as ServiceType, userService } from '@/lib/services/user-service
 import { useAuthStore } from '@/lib/stores/auth-store';
 import { CheckCheck, ChevronRightCircle, SaveIcon, Trash } from 'lucide-react-native';
 import { useState } from 'react';
-import { View } from 'react-native';
+import { Alert, View } from 'react-native';
 
 interface Props {
   service: ServiceType;
@@ -49,9 +49,24 @@ const Service = ({ service, disabledRemoval }: Props) => {
 
   const handleSavePrice = async () => {
     setIsSaveLoading(true);
+
+    const trimmedPrice = newPrice.trim();
+    if (!trimmedPrice.length) {
+      Alert.alert('Please enter a price.');
+      setIsSaveLoading(false);
+      return;
+    }
+
+    const priceNumber = Number(trimmedPrice);
+    if (isNaN(priceNumber) || priceNumber < 0) {
+      Alert.alert('Please enter a valid price (0 or greater).');
+      setIsSaveLoading(false);
+      return;
+    }
+
     try {
       const { uid } = user!;
-      await userService.updateServicePrice(uid, service.name, newPrice);
+      await userService.updateServicePrice(uid, service.name, trimmedPrice);
 
       // Refresh user profile to reflect the changes
       const updatedProfile = await userService.getUser(uid);
