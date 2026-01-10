@@ -2,7 +2,8 @@ import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
-import { Service as ServiceType } from '@/lib/services/user-service';
+import { Service as ServiceType, userService } from '@/lib/services/user-service';
+import { useAuthStore } from '@/lib/stores/auth-store';
 import { CheckCheck, ChevronRightCircle, SaveIcon, Trash } from 'lucide-react-native';
 import { useState } from 'react';
 import { View } from 'react-native';
@@ -15,12 +16,23 @@ interface Props {
 const Service = ({ service, disabledRemoval }: Props) => {
   const [remove, setRemove] = useState(false);
 
+  const user = useAuthStore((state) => state.user);
+
   const handleDoubleCheck = () => {
     setRemove((prev) => !prev);
   };
 
   const handleCancelRemove = () => {
     setRemove(false);
+  };
+
+  const handleRemoveService = async (serviceName: string) => {
+    try {
+      const { uid } = user!;
+      await userService.removeService(uid, serviceName);
+    } catch (error) {
+      console.error('Error removing service:', error);
+    }
   };
 
   return (
@@ -36,7 +48,7 @@ const Service = ({ service, disabledRemoval }: Props) => {
           </Button>
         ) : (
           <View className="flex flex-row items-center justify-center gap-2">
-            <Button variant="destructive">
+            <Button variant="destructive" onPress={() => handleRemoveService(service.name)}>
               <Icon as={CheckCheck} size={16} className="text-foreground" />
               <Text className="text-foreground">Confirm</Text>
             </Button>
