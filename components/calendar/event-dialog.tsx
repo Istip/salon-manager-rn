@@ -55,8 +55,8 @@ const EventDialog = ({
         <Text className="text-center text-6xl font-black text-primary">{item}</Text>
       </DialogHeader>
 
-      <View className="grid gap-4">
-        <View className="grid gap-3">
+      <View className="gap-4">
+        <View>
           <Input
             id="name"
             value={name}
@@ -64,19 +64,22 @@ const EventDialog = ({
             placeholder="Enter the client's name"
           />
         </View>
-        <View className="grid gap-3">
+        <View>
           <FlatList
             contentContainerStyle={{ gap: 8 }}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             data={services}
             keyExtractor={(item) => item.name}
+            style={{ flexGrow: 0 }}
             renderItem={({ item }) => (
               <Pressable
-                className={`rounded-xl px-2 pb-2 pt-1 ${action.name === item.name ? 'bg-primary' : 'bg-transparent'}`}
+                className={`rounded-xl border px-4 pb-4 pt-2 ${action.name === item.name ? 'border-primary bg-primary/50' : 'border-transparent bg-transparent'}`}
                 onPress={() => setAction(item)}>
                 <Text variant="large">{item.name}</Text>
-                <Text variant="small" className="text-center font-extralight">
+                <Text
+                  variant="small"
+                  className={`text-center font-extralight ${action.name === item.name ? 'text-background' : 'text-muted'}`}>
                   {item.price} LEI
                 </Text>
               </Pressable>
