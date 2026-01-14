@@ -130,7 +130,7 @@ const Events = () => {
 
   const displayData = getFilteredAppointments(filteredAppointments, timestamps, events);
 
-  const renderEventOrEmpty = (item: string) => {
+  const renderCard = (item: string) => {
     const event = events[item];
 
     if (loading) {
@@ -155,9 +155,9 @@ const Events = () => {
       />
       <FlashList
         scrollsToTop={true}
-        className="flex-1 px-2 py-0"
+        className="flex-1 px-2"
         data={displayData}
-        renderItem={({ item }) => renderEventOrEmpty(item)}
+        renderItem={({ item }) => renderCard(item)}
         keyExtractor={(item) => `${selectedDay.toDateString()}-${item}`}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={filteredAppointments === 'appointments' ? <NoAppointment /> : null}

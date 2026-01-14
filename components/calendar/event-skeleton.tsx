@@ -13,7 +13,7 @@ const EventSkeleton = ({ item }: { item: string }) => {
       </View>
 
       <View className="w-full flex-1">
-        <View className="w-full items-center rounded-lg border border-dashed border-border bg-muted/20 px-4 py-6 text-center opacity-50 dark:bg-black/20">
+        <View className="w-full items-center rounded-lg border border-dashed border-border bg-muted/20 px-4 py-4 text-center opacity-50 dark:bg-black/20">
           <Icon as={PlusCircleIcon} size={24} className="text-muted" />
         </View>
       </View>
