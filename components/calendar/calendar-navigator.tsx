@@ -1,8 +1,11 @@
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
+import { db } from '@/lib/firebase';
 import { daynames, getYearMonth } from '@/lib/helpers/date-functions';
+import { useAuthStore } from '@/lib/stores/auth-store';
 import { useDateStore } from '@/lib/stores/date-store';
+import { collection, onSnapshot, query, Timestamp, where } from 'firebase/firestore';
 import { ChevronLeft, ChevronRight, Clock } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
@@ -10,17 +13,63 @@ import { Pressable, ScrollView, View } from 'react-native';
 const CalendarNavigator = () => {
   const scrollViewRef = useRef<ScrollView>(null);
   const [scrollViewWidth, setScrollViewWidth] = useState(0);
-  const today = useDateStore((state) => state.today);
+  const [eventCounts, setEventCounts] = useState<Record<string, number>>({});
+  const unsubscribeRef = useRef<(() => void) | null>(null);
 
-  // Used to select a specific day to show clients' appointments
+  const user = useAuthStore((state) => state.user);
+  const today = useDateStore((state) => state.today);
   const selectedDay = useDateStore((state) => state.selectedDay);
   const setSelectedDay = useDateStore((state) => state.setSelectedDay);
-
-  // Used to navigate between months before selecting any new day
   const selectedDate = useDateStore((state) => state.selectedDate);
   const setSelectedDate = useDateStore((state) => state.setSelectedDate);
 
   const showBackToToday = selectedDay.toDateString() !== today.toDateString();
+
+  // Set up real-time listener for next 7 days
+  // NOTE: This is experimental feature, need to be monitored
+  useEffect(() => {
+    if (!user?.uid) return;
+
+    // Calculate date range: today to 7 days from now
+    const startDate = new Date(today);
+    startDate.setHours(0, 0, 0, 0);
+
+    const endDate = new Date(today);
+    endDate.setDate(endDate.getDate() + 6);
+    endDate.setHours(23, 59, 59, 999);
+
+    const q = query(
+      collection(db, 'events'),
+      where('uid', '==', user.uid),
+      where('date', '>=', Timestamp.fromDate(startDate)),
+      where('date', '<=', Timestamp.fromDate(endDate))
+    );
+
+    unsubscribeRef.current = onSnapshot(q, (snapshot) => {
+      const counts: Record<string, number> = {};
+
+      snapshot.docs.forEach((doc) => {
+        const eventDate = doc.data().date.toDate();
+        const dateKey = eventDate.toISOString().split('T')[0];
+
+        counts[dateKey] = (counts[dateKey] || 0) + 1;
+      });
+
+      setEventCounts(counts);
+    });
+
+    return () => {
+      if (unsubscribeRef.current) {
+        unsubscribeRef.current();
+      }
+    };
+  }, [today, user?.uid]);
+
+  // Helper to get event count for a specific day
+  const getCountForDay = (day: Date): number => {
+    const dateKey = day.toISOString().split('T')[0];
+    return eventCounts[dateKey] || 0;
+  };
 
   const selectPreviousMonth = () => {
     const prevMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth() - 1, 1);
@@ -102,23 +151,32 @@ const CalendarNavigator = () => {
           const isSelected = day.toDateString() === selectedDay.toDateString();
           const isToday = day.toDateString() === today.toDateString();
           const isWeekend = day.getDay() === 0 || day.getDay() === 6;
+          const count = getCountForDay(day);
 
           return (
-            <Pressable
-              key={day.getDate()}
-              onPress={() => setSelectedDay(day)}
-              className={`w-12 rounded-2xl border p-2 ${isWeekend ? 'bg-card' : 'bg-background'} ${isToday ? 'border-primary' : 'border-transparent'} ${isSelected ? 'bg-primary' : ''}`}>
-              <Text
-                variant="h4"
-                className={`text-center ${isSelected ? 'text-foreground' : isWeekend ? 'text-muted' : 'text-foreground'}`}>
-                {day.getDate()}
-              </Text>
-              <Text
-                variant="small"
-                className={`text-center ${isSelected ? 'text-foreground' : 'text-muted'}`}>
-                {daynames[(day.getDay() - 1 + 7) % 7]}
-              </Text>
-            </Pressable>
+            <View key={day.getDate()}>
+              <Pressable
+                onPress={() => setSelectedDay(day)}
+                className={`w-12 rounded-2xl border p-2 ${isWeekend ? 'bg-card' : 'bg-background'} ${isToday ? 'border-primary' : 'border-transparent'} ${isSelected ? 'bg-primary' : ''}`}>
+                <Text
+                  variant="h4"
+                  className={`text-center ${isSelected ? 'text-foreground' : isWeekend ? 'text-muted' : 'text-foreground'}`}>
+                  {day.getDate()}
+                </Text>
+                <Text
+                  variant="small"
+                  className={`text-center ${isSelected ? 'text-foreground' : 'text-muted'}`}>
+                  {daynames[(day.getDay() - 1 + 7) % 7]}
+                </Text>
+              </Pressable>
+              {count > 0 && (
+                <View className="flex items-center pt-1 text-center">
+                  <Text className="rounded-full bg-primary px-2 py-1 text-[8px] text-primary-foreground">
+                    {count}
+                  </Text>
+                </View>
+              )}
+            </View>
           );
         })}
       </ScrollView>
