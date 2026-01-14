@@ -1,3 +1,4 @@
+import '@/global.css';
 import { useAuthStateObserver } from '@/lib/hooks/use-auth-observer';
 import { useAuthStore } from '@/lib/stores/auth-store';
 import { NAV_THEME } from '@/lib/theme';
@@ -9,8 +10,6 @@ import { useColorScheme } from 'nativewind';
 import { useEffect, useRef } from 'react';
 import { Appearance } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-
-import '@/global.css';
 
 export default function RootLayout() {
   const { colorScheme, setColorScheme } = useColorScheme();
