@@ -154,7 +154,6 @@ const Events = () => {
         getDoneEventsPrice={getDoneEventsPrice}
       />
       <FlashList
-        scrollsToTop={true}
         className="flex-1 px-2"
         data={displayData}
         renderItem={({ item }) => renderCard(item)}
