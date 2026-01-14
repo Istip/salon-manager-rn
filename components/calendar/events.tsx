@@ -3,6 +3,7 @@ import Event from '@/components/calendar/event';
 import EventSkeleton from '@/components/calendar/event-skeleton';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
+import { Text } from '@/components/ui/text';
 import NoAppointment from '@/components/utils/no-appointment';
 import { timestamps } from '@/lib/helpers/date-functions';
 import { useCalendarEvents } from '@/lib/hooks/use-calendar-events';
@@ -22,22 +23,25 @@ const EventsHeader = ({
   return (
     <View className="mb-4 flex flex-row gap-2">
       <Button
-        variant={`${filter === 'all' ? 'secondary' : 'ghost'}`}
+        variant={`${filter === 'all' ? 'outline' : 'ghost'}`}
         className="w-full flex-1"
         onPress={() => onFilterChange('all')}>
         <Icon size="18" as={CalendarDays} />
+        <Text variant="small">All</Text>
       </Button>
       <Button
-        variant={`${filter === 'workingHours' ? 'secondary' : 'ghost'}`}
+        variant={`${filter === 'workingHours' ? 'outline' : 'ghost'}`}
         className="w-full flex-1"
         onPress={() => onFilterChange('workingHours')}>
         <Icon size="18" as={CalendarRange} />
+        <Text variant="small">Work</Text>
       </Button>
       <Button
-        variant={`${filter === 'appointments' ? 'secondary' : 'ghost'}`}
+        variant={`${filter === 'appointments' ? 'outline' : 'ghost'}`}
         className="w-full flex-1"
         onPress={() => onFilterChange('appointments')}>
         <Icon size="18" as={CalendarCheck} />
+        <Text variant="small">Events</Text>
       </Button>
     </View>
   );
