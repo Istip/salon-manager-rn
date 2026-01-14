@@ -4,7 +4,7 @@ import EventSkeleton from '@/components/calendar/event-skeleton';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import NoAppointment from '@/components/utils/no-appointment';
-import { timestamps } from '@/lib/date-functions';
+import { timestamps } from '@/lib/helpers/date-functions';
 import { useCalendarEvents } from '@/lib/hooks/use-calendar-events';
 import { useDateStore } from '@/lib/stores/date-store';
 import { FlashList } from '@shopify/flash-list';

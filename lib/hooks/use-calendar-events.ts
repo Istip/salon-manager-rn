@@ -1,5 +1,5 @@
-import { isSameDay } from '@/lib/date-functions';
 import { db } from '@/lib/firebase';
+import { isSameDay } from '@/lib/helpers/date-functions';
 import { useAuthStore } from '@/lib/stores/auth-store';
 import { useDateStore } from '@/lib/stores/date-store';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';

@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
-import { daynames, getYearMonth } from '@/lib/date-functions';
+import { daynames, getYearMonth } from '@/lib/helpers/date-functions';
 import { useDateStore } from '@/lib/stores/date-store';
 import { ChevronLeft, ChevronRight, Clock } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';

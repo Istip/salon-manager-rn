@@ -12,8 +12,8 @@ import {
 import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
-import { formatDate } from '@/lib/date-functions';
 import { db } from '@/lib/firebase';
+import { formatDate } from '@/lib/helpers/date-functions';
 import { useAuthStore } from '@/lib/stores/auth-store';
 import { useDateStore } from '@/lib/stores/date-store';
 import { addDoc, collection } from 'firebase/firestore';
@@ -28,6 +28,7 @@ const EmptyEvent = ({ item }: { item: string }) => {
 
   const selectedDay = useDateStore((state) => state.selectedDay);
   const user = useAuthStore((state) => state.user);
+
   const { uid } = user!;
 
   const handleSubmit = async () => {
