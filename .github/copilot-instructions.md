@@ -8,3 +8,4 @@ This project is a React Native application, heavily relying on Expo for managing
 
 - Write clear, concise code without unnecessary comments
 - Follow TypeScript best practices, ensuring type safety and clarity
+- Always check typescript errors before finishing any code completion
