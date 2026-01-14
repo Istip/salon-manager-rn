@@ -1,6 +1,5 @@
 import ProfileAvatar from '@/components/profile/profile-avatar';
 import Services from '@/components/profile/services';
-import GenderToggler from '@/components/settings/gender-toggler';
 import ThemeToggler from '@/components/settings/theme-toggler';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -59,7 +58,6 @@ const Profile = () => {
             </CardHeader>
             <CardContent>
               <ThemeToggler />
-              <GenderToggler className="mt-2" />
             </CardContent>
           </Card>
 

@@ -12,7 +12,6 @@ import { db } from '../firebase';
 
 export interface UserSettings {
   theme: 'light' | 'dark';
-  defaultGender: 'male' | 'female';
 }
 
 export interface Service {
@@ -58,7 +57,6 @@ export const userService: UserService = {
       phoneNumber: user.phoneNumber || providerData?.phoneNumber || '',
       settings: {
         theme: 'light',
-        defaultGender: 'female',
       },
       services: [
         { name: 'adult hair cut', price: '50' },
@@ -81,7 +79,6 @@ export const userService: UserService = {
       role: 'user',
       settings: {
         theme: 'light',
-        defaultGender: 'female',
       },
       services: [
         { name: 'adult hair cut', price: '50' },
