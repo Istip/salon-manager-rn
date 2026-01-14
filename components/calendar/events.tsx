@@ -10,7 +10,7 @@ import { useCalendarEvents } from '@/lib/hooks/use-calendar-events';
 import { useDateStore } from '@/lib/stores/date-store';
 import { FlashList } from '@shopify/flash-list';
 import { CalendarCheck, CalendarDays, CalendarRange, CheckCircle2 } from 'lucide-react-native';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { View } from 'react-native';
 
 const EventsHeader = ({
@@ -105,6 +105,15 @@ const Events = () => {
   >('workingHours');
   const { events, loading } = useCalendarEvents();
   const selectedDay = useDateStore((state) => state.selectedDay);
+  const flashListRef = useRef<any>(null);
+
+  const handleFilterChange = (filter: 'all' | 'workingHours' | 'appointments') => {
+    setFilteredAppointments(filter);
+    // Scroll to top when filter changes
+    setTimeout(() => {
+      flashListRef.current?.scrollToIndex({ index: 0, animated: true });
+    }, 10);
+  };
 
   const noEvents = () => {
     return Object.keys(events).length === 0;
@@ -149,11 +158,12 @@ const Events = () => {
       <EventsHeader
         noEvents={noEvents}
         filter={filteredAppointments}
-        onFilterChange={setFilteredAppointments}
+        onFilterChange={handleFilterChange}
         getAllEventsPrice={getAllEventsPrice}
         getDoneEventsPrice={getDoneEventsPrice}
       />
       <FlashList
+        ref={flashListRef}
         className="flex-1 px-2"
         data={displayData}
         renderItem={({ item }) => renderCard(item)}
