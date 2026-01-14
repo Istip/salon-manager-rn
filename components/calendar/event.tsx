@@ -66,34 +66,34 @@ const Event = ({ event, item }: { event: CalendarEvent; item: string }) => {
           {item}
         </Text>
       </View>
-      <View
+      <Pressable
+        onLongPress={handleFinish}
+        onPress={handleOpen}
         className={`flex-1 rounded-lg border border-primary px-4 py-6 ${event.done ? 'bg-primary' : 'bg-muted/20 dark:bg-black/20'}`}>
-        <Pressable onLongPress={handleFinish} onPress={handleOpen}>
-          <View className="flex flex-row items-center justify-between">
-            <View className="mr-4 h-10 w-10 items-center justify-center overflow-hidden rounded-2xl bg-card">
-              <Text variant="small" className="text-primary">
-                {event.price}
-              </Text>
-            </View>
-            <View className="flex-1">
-              <Text
-                variant="large"
-                className={`${event.done ? 'text-background' : 'text-foreground'}`}>
-                {event.name}
-              </Text>
-              <Text
-                variant="small"
-                className={`font-thin leading-5 ${event.done ? 'text-background' : 'text-muted-foreground'}`}>
-                {event.action}
-              </Text>
-            </View>
-            <Pressable onLongPress={handleFinish} onPress={handleOpen} className="p-3">
-              <Animated.View style={animatedStyle}>
-                <Icon as={ChevronDown} size={16} />
-              </Animated.View>
-            </Pressable>
+        <View className="flex flex-row items-center justify-between">
+          <View className="mr-4 h-10 w-10 items-center justify-center overflow-hidden rounded-2xl bg-card">
+            <Text variant="small" className="text-primary">
+              {event.price}
+            </Text>
           </View>
-        </Pressable>
+          <View className="flex-1">
+            <Text
+              variant="large"
+              className={`${event.done ? 'text-background' : 'text-foreground'}`}>
+              {event.name}
+            </Text>
+            <Text
+              variant="small"
+              className={`font-thin leading-5 ${event.done ? 'text-background' : 'text-muted-foreground'}`}>
+              {event.action}
+            </Text>
+          </View>
+          <Pressable onLongPress={handleFinish} onPress={handleOpen} className="p-3">
+            <Animated.View style={animatedStyle}>
+              <Icon as={ChevronDown} size={16} />
+            </Animated.View>
+          </Pressable>
+        </View>
         {open && (
           <View className="mt-4 flex-1 flex-row items-center justify-between gap-2">
             <View>
@@ -116,7 +116,7 @@ const Event = ({ event, item }: { event: CalendarEvent; item: string }) => {
             </View>
           </View>
         )}
-      </View>
+      </Pressable>
     </View>
   );
 };
