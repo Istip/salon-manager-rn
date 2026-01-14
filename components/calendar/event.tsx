@@ -12,11 +12,8 @@ import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-na
 
 const Event = ({ event, item }: { event: CalendarEvent; item: string }) => {
   const [open, setOpen] = useState(false);
+  const [price, setPrice] = useState(event.price.toString());
   const rotation = useSharedValue(0);
-
-  useEffect(() => {
-    rotation.value = withTiming(open ? 180 : 0, { duration: 200 });
-  }, [open, rotation]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ rotate: `${rotation.value}deg` }],
@@ -41,6 +38,26 @@ const Event = ({ event, item }: { event: CalendarEvent; item: string }) => {
   const handleOpen = () => {
     setOpen((prev) => !prev);
   };
+
+  useEffect(() => {
+    rotation.value = withTiming(open ? 180 : 0, { duration: 200 });
+  }, [open, rotation]);
+
+  useEffect(() => {
+    const handleChangePrice = async () => {
+      try {
+        await setDoc(
+          doc(db, 'events', event.id),
+          { ...event, price: parseFloat(price) || 0 },
+          { merge: true }
+        );
+      } catch (error) {
+        console.error('Error updating document: ', error);
+      }
+    };
+
+    handleChangePrice();
+  }, [price, event]);
 
   return (
     <View className="w-full flex-row items-center gap-2 py-2">
@@ -86,7 +103,8 @@ const Event = ({ event, item }: { event: CalendarEvent; item: string }) => {
             </View>
             <View className="flex-1">
               <Input
-                defaultValue={String(event.price)}
+                value={price}
+                onChangeText={setPrice}
                 keyboardType="numeric"
                 placeholder="Enter price"
               />
