@@ -65,9 +65,9 @@ const Profile = () => {
             <CardHeader>
               <CardTitle>Services</CardTitle>
               <CardDescription>
-                Manage your offered services, add or remove them, adjust its price. Note: you have
-                to have at least one active service at a time and each service should have a unique
-                name.
+                Manage your offered services. Add new services, remove existing ones, or adjust
+                their prices. Note: you have to have at least one active service at a time and each
+                service should have a unique name.
               </CardDescription>
             </CardHeader>
             <CardContent>
