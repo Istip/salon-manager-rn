@@ -97,7 +97,7 @@ const EventDialog = ({
         </DialogClose>
         <Button onPress={handleSubmit}>
           <Icon as={SaveIcon} size={16} className="text-background" />
-          <Text>Save changes</Text>
+          <Text>Add Appointment</Text>
         </Button>
       </DialogFooter>
     </>
