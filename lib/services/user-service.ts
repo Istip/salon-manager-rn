@@ -37,7 +37,6 @@ export interface UserService {
   getUser: (uid: string) => Promise<UserProfile | null>;
   updateUser: (uid: string, data: Partial<UserProfile>) => Promise<void>;
   updateTheme: (uid: string, theme: 'light' | 'dark') => Promise<void>;
-  updateDefaultGender: (uid: string, gender: 'male' | 'female') => Promise<void>;
   addNewService: (uid: string, service: Service) => Promise<void>;
   removeService: (uid: string, serviceName: string) => Promise<void>;
   updateServicePrice: (uid: string, serviceName: string, newPrice: string) => Promise<void>;
@@ -136,19 +135,6 @@ export const userService: UserService = {
       });
     } catch (error) {
       console.error('Error updating theme:', error);
-      throw error;
-    }
-  },
-
-  updateDefaultGender: async (uid: string, gender: 'male' | 'female') => {
-    try {
-      const userRef = doc(db, 'users', uid);
-      await updateDoc(userRef, {
-        'settings.defaultGender': gender,
-        updatedAt: serverTimestamp(),
-      });
-    } catch (error) {
-      console.error('Error updating default gender', error);
       throw error;
     }
   },
