@@ -83,7 +83,7 @@ const Event = ({ event, item }: { event: CalendarEvent; item: string }) => {
               </Text>
               <Text
                 variant="small"
-                className={`font-thin leading-5 ${event.done ? 'text-background' : 'text-foreground'}`}>
+                className={`font-thin leading-5 ${event.done ? 'text-background' : 'text-muted-foreground'}`}>
                 {event.action}
               </Text>
             </View>
