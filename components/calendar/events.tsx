@@ -29,8 +29,8 @@ const EventsHeader = ({
   const allDone = getDoneEventsPrice() === getAllEventsPrice();
 
   return (
-    <View>
-      <View className="mb-4 flex flex-row gap-2">
+    <View className="flex gap-2 py-2">
+      <View className="flex flex-row gap-2">
         <Button
           variant={`${filter === 'all' ? 'outline' : 'ghost'}`}
           className="w-full flex-1"
@@ -55,7 +55,7 @@ const EventsHeader = ({
       </View>
       {!noEvents() && (
         <View
-          className={`mb-4 flex flex-row items-center justify-center gap-2 rounded-xl border py-2 ${allDone ? 'border-primary bg-primary/50' : 'border-primary/20 bg-primary/5'}`}>
+          className={`flex flex-row items-center justify-center gap-2 rounded-xl border py-2 ${allDone ? 'border-primary bg-primary/50' : 'border-primary/20 bg-primary/5'}`}>
           {allDone && (
             <View>
               <Icon as={CheckCircle2} className="text-primary" />
@@ -145,23 +145,24 @@ const Events = () => {
   };
 
   return (
-    <FlashList
-      className="px-2"
-      data={displayData}
-      renderItem={({ item }) => renderEventOrEmpty(item)}
-      keyExtractor={(item) => `${selectedDay.toDateString()}-${item}`}
-      showsVerticalScrollIndicator={false}
-      ListHeaderComponent={
-        <EventsHeader
-          noEvents={noEvents}
-          filter={filteredAppointments}
-          onFilterChange={setFilteredAppointments}
-          getAllEventsPrice={getAllEventsPrice}
-          getDoneEventsPrice={getDoneEventsPrice}
-        />
-      }
-      ListEmptyComponent={filteredAppointments === 'appointments' ? <NoAppointment /> : null}
-    />
+    <View className="flex-1">
+      <EventsHeader
+        noEvents={noEvents}
+        filter={filteredAppointments}
+        onFilterChange={setFilteredAppointments}
+        getAllEventsPrice={getAllEventsPrice}
+        getDoneEventsPrice={getDoneEventsPrice}
+      />
+      <FlashList
+        scrollsToTop={true}
+        className="flex-1 px-2 py-0"
+        data={displayData}
+        renderItem={({ item }) => renderEventOrEmpty(item)}
+        keyExtractor={(item) => `${selectedDay.toDateString()}-${item}`}
+        showsVerticalScrollIndicator={false}
+        ListEmptyComponent={filteredAppointments === 'appointments' ? <NoAppointment /> : null}
+      />
+    </View>
   );
 };
 
