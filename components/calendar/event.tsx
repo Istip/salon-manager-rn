@@ -69,7 +69,7 @@ const Event = ({ event, item }: { event: CalendarEvent; item: string }) => {
       <Pressable
         onLongPress={handleFinish}
         onPress={handleOpen}
-        className={`flex-1 rounded-lg border border-primary px-4 py-6 ${event.done ? 'bg-primary' : 'bg-muted/20 dark:bg-black/20'}`}>
+        className={`flex-1 rounded-lg border border-primary px-3 py-3 ${event.done ? 'bg-primary' : 'bg-muted/20 dark:bg-black/20'}`}>
         <View className="flex flex-row items-center justify-between">
           <View className="mr-4 h-10 w-10 items-center justify-center overflow-hidden rounded-2xl bg-card">
             <Text variant="small" className="text-primary">
@@ -95,7 +95,7 @@ const Event = ({ event, item }: { event: CalendarEvent; item: string }) => {
           </Pressable>
         </View>
         {open && (
-          <View className="mt-4 flex-1 flex-row items-center justify-between gap-2">
+          <View className="mt-4 flex-1 flex-row items-center justify-between gap-2 pb-1">
             <View>
               <Button size="sm" variant="destructive" onPress={handleRemove}>
                 <Icon as={Trash} size={16} />
