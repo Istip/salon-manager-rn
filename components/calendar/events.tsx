@@ -58,7 +58,7 @@ const EventsHeader = ({
           <View className="h-[1] flex-1 bg-primary" />
           {allDone && (
             <View>
-              <Icon as={CheckCircle2} className="text-primary" />
+              <Icon as={CheckCircle2} className="animate-pulse text-primary" />
             </View>
           )}
           <Text variant="small">
