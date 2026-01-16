@@ -29,7 +29,7 @@ const EventsHeader = ({
   const allDone = getDoneEventsPrice() === getAllEventsPrice();
 
   return (
-    <View className="flex gap-2 pb-2 pt-3">
+    <View className="flex gap-2 px-2 pb-2 pt-3">
       <View className="flex flex-row gap-2">
         <Button
           variant={`${filter === 'all' ? 'outline' : 'ghost'}`}
