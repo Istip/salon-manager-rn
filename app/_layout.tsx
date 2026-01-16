@@ -9,6 +9,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from 'nativewind';
 import { useEffect, useRef } from 'react';
 import { Appearance } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function RootLayout() {
@@ -36,36 +37,38 @@ export default function RootLayout() {
   }, [userProfile, isLoading, setColorScheme]);
 
   return (
-    <SafeAreaProvider>
-      <ThemeProvider value={NAV_THEME[colorScheme ?? 'light']}>
-        <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
-        <Stack>
-          <Stack.Screen
-            name="(tabs)"
-            options={{ title: 'Home', headerShown: false, animation: 'fade_from_bottom' }}
-          />
-          <Stack.Screen
-            name="auth/sign-in"
-            options={{
-              title: 'Sign In',
-              headerShown: false,
-              presentation: 'card',
-              animation: 'fade_from_bottom',
-            }}
-          />
-          <Stack.Screen
-            name="auth/sign-up"
-            options={{
-              title: 'Sign Up',
-              headerShown: false,
-              presentation: 'card',
-              animation: 'fade_from_bottom',
-            }}
-          />
-        </Stack>
-        <PortalHost />
-      </ThemeProvider>
-    </SafeAreaProvider>
+    <GestureHandlerRootView>
+      <SafeAreaProvider>
+        <ThemeProvider value={NAV_THEME[colorScheme ?? 'light']}>
+          <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+          <Stack>
+            <Stack.Screen
+              name="(tabs)"
+              options={{ title: 'Home', headerShown: false, animation: 'fade_from_bottom' }}
+            />
+            <Stack.Screen
+              name="auth/sign-in"
+              options={{
+                title: 'Sign In',
+                headerShown: false,
+                presentation: 'card',
+                animation: 'fade_from_bottom',
+              }}
+            />
+            <Stack.Screen
+              name="auth/sign-up"
+              options={{
+                title: 'Sign Up',
+                headerShown: false,
+                presentation: 'card',
+                animation: 'fade_from_bottom',
+              }}
+            />
+          </Stack>
+          <PortalHost />
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
 
