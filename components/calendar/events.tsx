@@ -54,11 +54,12 @@ const EventsHeader = ({
         </Button>
       </View>
       {!noEvents() && (
-        <View className="flex flex-row items-center justify-center gap-2 rounded-xl px-2 py-1">
+        <View
+          className={`flex flex-row items-center justify-center gap-2 rounded-xl px-2 py-1 ${!allDone ? 'animate-pulse duration-1000' : 'animate-none'}`}>
           <View className="h-[1] flex-1 bg-primary" />
           {allDone && (
             <View>
-              <Icon as={CheckCircle2} className="animate-pulse text-primary" />
+              <Icon as={CheckCircle2} className="text-primary" />
             </View>
           )}
           <Text variant="small">
