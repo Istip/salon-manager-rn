@@ -117,7 +117,7 @@ const Event = ({ event, item }: { event: CalendarEvent; item: string }) => {
               onPress={handleOpen}
               className={`rounded-lg border border-primary px-3 py-3 ${event.done ? 'bg-primary' : 'bg-zinc-100 dark:bg-zinc-900'}`}>
               <View className="flex flex-row items-center justify-between">
-                <View className="mr-4 h-10 w-10 items-center justify-center overflow-hidden rounded-2xl bg-card">
+                <View className="mr-4 h-10 w-10 items-center justify-center overflow-hidden rounded-2xl bg-background dark:bg-card">
                   <Text variant="small" className="text-primary">
                     {event.price}
                   </Text>
