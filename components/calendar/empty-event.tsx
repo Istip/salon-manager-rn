@@ -65,7 +65,7 @@ const EmptyEvent = ({ item }: { item: string }) => {
         <View className="w-full flex-1">
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <Pressable className="w-full items-center rounded-lg border border-dashed border-border bg-muted/20 px-4 py-4 text-center dark:bg-black/20">
+              <Pressable className="w-full items-center rounded-lg border border-dashed border-border bg-zinc-100 px-4 py-4 text-center dark:bg-zinc-900">
                 <Icon as={PlusCircleIcon} size={24} className="text-muted" />
               </Pressable>
             </DialogTrigger>
