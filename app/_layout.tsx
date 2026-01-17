@@ -10,7 +10,14 @@ import { useColorScheme } from 'nativewind';
 import { useEffect, useRef } from 'react';
 import { Appearance } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+// Disable strict mode warning for shared value writes during render
+configureReanimatedLogger({
+  level: ReanimatedLogLevel.warn,
+  strict: false,
+});
 
 export default function RootLayout() {
   const { colorScheme, setColorScheme } = useColorScheme();
